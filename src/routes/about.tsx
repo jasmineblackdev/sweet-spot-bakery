@@ -27,10 +27,10 @@ function AboutPage() {
       <section className="mx-auto max-w-4xl px-4 py-16">
         <h1 className="font-display text-5xl text-primary md:text-6xl">About Frosted Remedies</h1>
         <p className="mt-4 text-lg text-foreground/80">
-          Welcome to Frosted Remedies, where every bite is crafted with love and the finest
-          ingredients. Our passion is to create delicious, comforting baked goods and beverages that
-          bring a little sweetness to your day — from classic favorites to unique creations, poured
-          straight from our hearts.
+          Welcome to FROSTED REMEDIES, where every bite is crafted with love and the finest
+          ingredients. Our passion is to create delicious and comforting baked goods and beverages
+          that bring a little sweetness to your day. From classic favorites to unique creations, we
+          pour our hearts into every recipe.
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -40,9 +40,9 @@ function AboutPage() {
               <h2 className="font-display text-2xl text-primary">Our Mission</h2>
             </div>
             <p className="mt-3 text-foreground/80">
-              To offer the Charlotte community delightful, comforting baked goods and beverages —
-              our "frosted remedies" — fostering a welcoming, joyful experience that grows a loyal
-              following on the way to a thriving permanent bakery.
+              To offer the Charlotte community delightful and comforting baked goods and beverages —
+              our "frosted remedies" — fostering a welcoming and joyful experience that cultivates a
+              loyal customer base and ultimately leads to a thriving permanent bakery.
             </p>
           </div>
 
@@ -52,9 +52,9 @@ function AboutPage() {
               <h2 className="font-display text-2xl text-primary">Our Vision</h2>
             </div>
             <p className="mt-3 text-foreground/80">
-              To become a beloved Charlotte bakery known for exceptional quality, deep community
-              connection, and dedication to female entrepreneurship — where every treat feels like a
-              little remedy.
+              To become a beloved and established bakery in Charlotte, recognized for its
+              exceptional quality, community connection, and dedication to female entrepreneurship,
+              where every treat feels like a little remedy.
             </p>
           </div>
         </div>
@@ -64,9 +64,9 @@ function AboutPage() {
           <ul className="mt-3 grid gap-2 text-foreground/80 md:grid-cols-2">
             <li>• Premium ingredients</li>
             <li>• Delectable taste</li>
-            <li>• Friendly &amp; attentive service</li>
+            <li>• Friendly and attentive service</li>
             <li>• Strong community ties</li>
-            <li>• Empowering women in the culinary world</li>
+            <li>• The empowerment of women in the culinary world</li>
           </ul>
         </div>
 
@@ -77,17 +77,20 @@ function AboutPage() {
             <p className="mt-1 text-sm font-semibold text-foreground/70">Head Baker &amp; Co-Founder</p>
             <p className="mt-3 text-foreground/80">
               Clare has been baking since she could reach the counter. With a background in culinary
-              arts and a lifelong love for pastries, she brings a creative, meticulous approach to
-              every recipe — a delightful blend of tradition and innovation.
+              arts and a lifelong love for pastries, she brings a creative and meticulous approach
+              to our baking. Her signature recipes are a delightful blend of tradition and
+              innovation.
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
             <h3 className="font-display text-2xl text-primary">Julie</h3>
             <p className="mt-1 text-sm font-semibold text-foreground/70">Co-Founder</p>
             <p className="mt-3 text-foreground/80">
-              A seasoned pro in customer relations and quick-service restaurants, Julie brings a
-              deep passion for exceptional customer experiences — building strong teams and driving
-              the operational care that lets every guest feel looked after.
+              Co-Founder and seasoned professional with a rich history in both customer relations
+              and the quick service restaurant (QSR) sector. Julie brings a deep-rooted passion for
+              fostering exceptional customer experiences, building her career on a foundation of
+              understanding customer needs, cultivating strong team performance, and driving
+              operational efficiency to consistently exceed expectations.
             </p>
           </div>
         </div>
