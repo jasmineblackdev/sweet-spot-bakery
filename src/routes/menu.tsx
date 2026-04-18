@@ -25,10 +25,10 @@ function MenuPage() {
   return (
     <SiteLayout>
       <section className="mx-auto max-w-6xl px-4 py-12">
-        <h1 className="font-display text-5xl text-primary md:text-6xl">Sweet Treats</h1>
+        <h1 className="font-display text-5xl text-primary md:text-6xl">Our Delicious Menu</h1>
         <p className="mt-3 max-w-2xl text-foreground/80">
-          Sold on-site while supplies last, or pre-order for pickup (72 hours in advance, $50
-          minimum).
+          In-person items sold while supplies last. Whole cakes require 48 hours notice — cookies
+          are 2 for $5 (save $0.50). Cookies $2.75 each • Jumbo muffins $3.50 (= 2 regular).
         </p>
 
         <div className="mt-10">
@@ -37,12 +37,7 @@ function MenuPage() {
 
         <div className="mt-16 rounded-3xl border border-border bg-card p-6 md:p-8">
           <h2 className="font-display text-3xl text-primary">Sold on-site only</h2>
-          <ul className="mt-4 grid gap-2 text-foreground/80 md:grid-cols-2">
-            <li>• Coffee (with liquid sugar &amp; half/half)</li>
-            <li>• Bottled water</li>
-            <li>• ZOLLIPOP lollipops</li>
-            <li>• Plantlings (whatever's on hand 🌱)</li>
-          </ul>
+          <ProductGrid category="on_site_only" />
         </div>
       </section>
     </SiteLayout>
