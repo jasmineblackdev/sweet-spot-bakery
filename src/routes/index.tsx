@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Sprinkles } from "@/components/Sprinkles";
 import { BestiesSignup } from "@/components/BestiesSignup";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 import bakeryGrid from "@/assets/bakery-grid.jpg";
 import { ArrowRight, Cookie, Cake, Coffee } from "lucide-react";
 
@@ -41,11 +41,12 @@ function HomePage() {
           <img
             src={logo}
             alt="Frosted Remedies logo"
-            className="h-44 w-44 animate-float rounded-full object-cover shadow-[var(--shadow-glow)] md:h-56 md:w-56"
+            className="h-auto w-[min(90%,520px)] animate-float object-contain drop-shadow-[var(--shadow-glow)]"
           />
-          <h1 className="font-display text-5xl text-primary drop-shadow-sm md:text-7xl">
+          <h1 className="sr-only">Frosted Remedies — Sweet treats, made with love</h1>
+          <p className="font-display text-3xl text-primary drop-shadow-sm md:text-5xl">
             Sweet treats, made with love
-          </h1>
+          </p>
           <p className="max-w-2xl text-base text-foreground/80 md:text-lg">
             Whimsical, sparkly, purple — fresh-baked banana bread, cookies, brownies, cakes, and a
             cozy little shop full of candles and tumblers.

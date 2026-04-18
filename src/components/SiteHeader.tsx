@@ -1,7 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { ShoppingBag, Menu as MenuIcon, X } from "lucide-react";
 import { useState } from "react";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 import { useCart } from "@/lib/cart";
 import { cn } from "@/lib/utils";
 
@@ -26,9 +26,8 @@ export function SiteHeader() {
           <img
             src={logo}
             alt="Frosted Remedies"
-            className="h-16 w-16 rounded-full object-cover shadow-[var(--shadow-soft)] transition-transform group-hover:scale-105 md:h-20 md:w-20"
+            className="h-20 w-auto object-contain transition-transform group-hover:scale-105 md:h-28"
           />
-          <span className="mt-1 font-display text-xl text-primary md:text-2xl">Frosted Remedies</span>
         </Link>
 
         {/* Desktop nav under logo */}
