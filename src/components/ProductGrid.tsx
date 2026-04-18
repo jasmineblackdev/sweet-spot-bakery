@@ -20,7 +20,6 @@ export function ProductGrid({ category }: { category: Category }) {
         .from("products")
         .select("*")
         .eq("category", category)
-        .eq("available", true)
         .order("sort_order", { ascending: true });
       if (cancel) return;
       if (error) setErr(error.message);
@@ -62,9 +61,15 @@ export function ProductGrid({ category }: { category: Category }) {
 function ProductCard({ product }: { product: Product }) {
   const { add, items, setQty } = useCart();
   const inCart = items.find((i) => i.productId === product.id);
+  const isComingSoon = !product.available;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-soft)] transition hover:-translate-y-1">
+    <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-soft)] transition hover:-translate-y-1">
+      {isComingSoon && (
+        <span className="absolute right-3 top-3 z-10 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground shadow-[var(--shadow-soft)]">
+          Coming soon
+        </span>
+      )}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-accent/40">
         {product.image_url ? (
           <img
@@ -89,7 +94,9 @@ function ProductCard({ product }: { product: Product }) {
             {formatPrice(product.price_cents)}
           </span>
 
-          {inCart ? (
+          {isComingSoon ? (
+            <span className="text-xs font-medium text-muted-foreground">Not yet available</span>
+          ) : inCart ? (
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-card px-2 py-1">
               <button
                 aria-label={`Decrease ${product.name}`}
