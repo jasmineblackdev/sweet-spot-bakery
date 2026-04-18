@@ -50,7 +50,7 @@ function ContactPage() {
     const body = encodeURIComponent(
       `Name: ${parsed.data.name}\nEmail: ${parsed.data.email}\nPhone: ${parsed.data.phone || "—"}\n\n${parsed.data.message}`,
     );
-    window.location.href = `mailto:hello@frostedremedies.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:frostedremedies@gmail.com?subject=${subject}&body=${body}`;
     setSent(true);
   }
 
@@ -60,14 +60,15 @@ function ContactPage() {
         <div>
           <h1 className="font-display text-5xl text-primary md:text-6xl">Contact</h1>
           <p className="mt-3 text-foreground/80">
-            Questions, custom orders, or just want to say hi? We'd love to hear from you.
+            We'd love to hear from you! Questions, custom orders, or just want to say hi —
+            send us a note.
           </p>
 
           <ul className="mt-8 space-y-4">
             <li className="flex items-center gap-3">
               <Mail className="h-5 w-5 text-primary" />
-              <a className="text-foreground hover:text-primary" href="mailto:hello@frostedremedies.com">
-                hello@frostedremedies.com
+              <a className="text-foreground hover:text-primary" href="mailto:frostedremedies@gmail.com">
+                frostedremedies@gmail.com
               </a>
             </li>
             <li className="flex items-center gap-3">
@@ -83,7 +84,7 @@ function ContactPage() {
             </li>
             <li className="flex items-center gap-3">
               <Phone className="h-5 w-5 text-primary" />
-              <span className="text-foreground/80">Text us via the form (no number shared)</span>
+              <span className="text-foreground/80">Based in Charlotte, NC 💜</span>
             </li>
           </ul>
         </div>
