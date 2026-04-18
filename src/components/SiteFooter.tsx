@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-10 text-center md:flex-row md:justify-between md:text-left">
         <div>
           <p className="font-display text-2xl text-primary">Frosted Remedies</p>
-          <p className="mt-1 text-sm text-muted-foreground">Sweet treats, made with love. Pickup only.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Charlotte, NC • Sweet treats, made with love.</p>
         </div>
         <nav className="flex flex-wrap items-center justify-center gap-4 text-sm">
           <Link to="/about" className="text-foreground/70 hover:text-primary">About</Link>
