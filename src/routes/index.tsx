@@ -3,7 +3,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { Sprinkles } from "@/components/Sprinkles";
 import { BestiesSignup } from "@/components/BestiesSignup";
 import logo from "@/assets/logo.png";
-import bakeryGrid from "@/assets/bakery-grid.jpg";
+
 import { ArrowRight, Cookie, Cake, Coffee } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -103,14 +103,55 @@ function HomePage() {
         ))}
       </section>
 
-      {/* GALLERY */}
+      {/* GALLERY — From Our Kitchen */}
       <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="overflow-hidden rounded-3xl border border-border shadow-[var(--shadow-soft)]">
+        <h2 className="font-display text-4xl text-primary md:text-5xl">From Our Kitchen</h2>
+        <p className="mt-2 text-foreground/70">
+          A peek into the bakes, the moments, and the magic. (Placeholder media — swap in your own
+          photos and videos any time.)
+        </p>
+        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
           <img
-            src={bakeryGrid}
-            alt="Selection of Frosted Remedies treats and behind-the-scenes moments"
-            className="h-auto w-full object-cover"
+            src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800&q=80"
+            alt="Freshly baked muffins on a cooling rack"
             loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80"
+            alt="Decorated cupcakes with frosting swirls"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80"
+            alt="Chocolate chip cookies stacked on parchment"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <video
+            src="https://cdn.pixabay.com/video/2020/04/30/38732-415054249_large.mp4"
+            poster="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80"
+            muted
+            loop
+            playsInline
+            autoPlay
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80"
+            alt="Slice of layered chocolate cake"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <video
+            src="https://cdn.pixabay.com/video/2019/10/09/27725-365224679_large.mp4"
+            poster="https://images.unsplash.com/photo-1587668178277-295251f900ce?w=800&q=80"
+            muted
+            loop
+            playsInline
+            autoPlay
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
           />
         </div>
       </section>
