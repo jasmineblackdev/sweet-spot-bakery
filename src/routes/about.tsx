@@ -73,7 +73,10 @@ function AboutPage() {
         <h2 className="mt-14 font-display text-4xl text-primary">Meet Our Chefs</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
-            <h3 className="font-display text-2xl text-primary">Clare</h3>
+            <div className="flex aspect-square w-32 items-center justify-center overflow-hidden rounded-full border-2 border-primary/30 bg-accent/40">
+              <span className="font-display text-4xl text-primary/60">C</span>
+            </div>
+            <h3 className="mt-4 font-display text-2xl text-primary">Clare</h3>
             <p className="mt-1 text-sm font-semibold text-foreground/70">Head Baker &amp; Co-Founder</p>
             <p className="mt-3 text-foreground/80">
               Clare has been baking since she could reach the counter. With a background in culinary
@@ -83,7 +86,10 @@ function AboutPage() {
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
-            <h3 className="font-display text-2xl text-primary">Julie</h3>
+            <div className="flex aspect-square w-32 items-center justify-center overflow-hidden rounded-full border-2 border-primary/30 bg-accent/40">
+              <span className="font-display text-4xl text-primary/60">J</span>
+            </div>
+            <h3 className="mt-4 font-display text-2xl text-primary">Julie</h3>
             <p className="mt-1 text-sm font-semibold text-foreground/70">Co-Founder</p>
             <p className="mt-3 text-foreground/80">
               Co-Founder and seasoned professional with a rich history in both customer relations
