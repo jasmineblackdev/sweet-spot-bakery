@@ -38,6 +38,27 @@ export type Database = {
         }
         Relationships: []
       }
+      blackout_dates: {
+        Row: {
+          blackout_date: string
+          created_at: string
+          id: string
+          reason: string | null
+        }
+        Insert: {
+          blackout_date: string
+          created_at?: string
+          id?: string
+          reason?: string | null
+        }
+        Update: {
+          blackout_date?: string
+          created_at?: string
+          id?: string
+          reason?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           id: string
@@ -89,6 +110,7 @@ export type Database = {
           id: string
           notes: string | null
           pickup_at: string | null
+          pickup_slot: string | null
           status: Database["public"]["Enums"]["order_status"]
           stripe_session_id: string | null
           subtotal_cents: number
@@ -103,6 +125,7 @@ export type Database = {
           id?: string
           notes?: string | null
           pickup_at?: string | null
+          pickup_slot?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           stripe_session_id?: string | null
           subtotal_cents?: number
@@ -117,6 +140,7 @@ export type Database = {
           id?: string
           notes?: string | null
           pickup_at?: string | null
+          pickup_slot?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           stripe_session_id?: string | null
           subtotal_cents?: number

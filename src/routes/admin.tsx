@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart, formatPrice } from "@/lib/cart";
 import type { Database } from "@/integrations/supabase/types";
-import { Plus, Save, Trash2, Upload, LogOut, ShieldAlert } from "lucide-react";
+import { Plus, Save, Trash2, Upload, LogOut, ShieldAlert, Download, CalendarX, CalendarDays } from "lucide-react";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 type Order = Database["public"]["Tables"]["orders"]["Row"];
@@ -112,6 +112,8 @@ function AdminPage() {
         </header>
 
         <div className="mt-10 grid gap-10">
+          <PickupCalendar />
+          <BlackoutManager />
           <ProductsManager />
           <OrdersList />
           <BestiesList />
@@ -453,9 +455,40 @@ function BestiesList() {
       setList(data ?? []);
     })();
   }, []);
+
+  function exportCsv() {
+    const header = ["Name", "Phone", "Birthday", "Joined"];
+    const rows = list.map((b) => [
+      b.name,
+      b.phone,
+      b.birthday ?? "",
+      new Date(b.created_at).toISOString(),
+    ]);
+    const csv = [header, ...rows]
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `besties-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div>
-      <h2 className="font-display text-2xl text-primary">Besties Club</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="font-display text-2xl text-primary">Besties Club</h2>
+        {list.length > 0 && (
+          <button
+            onClick={exportCsv}
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold hover:border-primary"
+          >
+            <Download className="h-3 w-3" /> Export CSV
+          </button>
+        )}
+      </div>
       <p className="text-sm text-muted-foreground">
         Members signed up for SMS rewards. SMS sending will be wired up via Twilio next.
       </p>
@@ -486,6 +519,221 @@ function BestiesList() {
             </tbody>
           </table>
         </div>
+      )}
+    </div>
+  );
+}
+
+// --------- Pickup Calendar ---------
+
+function PickupCalendar() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [blackouts, setBlackouts] = useState<string[]>([]);
+  const [monthOffset, setMonthOffset] = useState(0);
+
+  async function load() {
+    const today = new Date();
+    today.setDate(1);
+    today.setMonth(today.getMonth() + monthOffset);
+    const start = today.toISOString().slice(0, 10);
+    const endDate = new Date(today);
+    endDate.setMonth(endDate.getMonth() + 1);
+    const end = endDate.toISOString().slice(0, 10);
+
+    const [ord, blk] = await Promise.all([
+      supabase
+        .from("orders")
+        .select("*")
+        .gte("pickup_at", start)
+        .lt("pickup_at", end)
+        .neq("status", "cancelled")
+        .order("pickup_at"),
+      supabase.from("blackout_dates").select("blackout_date").gte("blackout_date", start).lt("blackout_date", end),
+    ]);
+    setOrders((ord.data as Order[]) ?? []);
+    setBlackouts((blk.data ?? []).map((b) => b.blackout_date));
+  }
+
+  useEffect(() => {
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [monthOffset]);
+
+  const cursor = new Date();
+  cursor.setDate(1);
+  cursor.setMonth(cursor.getMonth() + monthOffset);
+  const monthLabel = cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+  const firstDay = new Date(cursor.getFullYear(), cursor.getMonth(), 1).getDay();
+  const daysInMonth = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0).getDate();
+
+  const ordersByDay: Record<string, Order[]> = {};
+  for (const o of orders) {
+    if (!o.pickup_at) continue;
+    const d = new Date(o.pickup_at).toISOString().slice(0, 10);
+    (ordersByDay[d] ??= []).push(o);
+  }
+
+  return (
+    <div>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="font-display text-2xl text-primary">
+          <CalendarDays className="mr-2 inline h-5 w-5" />
+          Pickup Calendar
+        </h2>
+        <div className="inline-flex items-center gap-2">
+          <button
+            onClick={() => setMonthOffset((m) => m - 1)}
+            className="rounded-full border border-border bg-card px-3 py-1.5 text-xs hover:border-primary"
+          >
+            ← Prev
+          </button>
+          <span className="text-sm font-semibold">{monthLabel}</span>
+          <button
+            onClick={() => setMonthOffset((m) => m + 1)}
+            className="rounded-full border border-border bg-card px-3 py-1.5 text-xs hover:border-primary"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4 grid grid-cols-7 gap-1 rounded-2xl border border-border bg-card p-3 text-xs">
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+          <div key={d} className="p-2 text-center font-semibold text-muted-foreground">
+            {d}
+          </div>
+        ))}
+        {Array.from({ length: firstDay }).map((_, i) => (
+          <div key={`pad-${i}`} />
+        ))}
+        {Array.from({ length: daysInMonth }).map((_, i) => {
+          const day = i + 1;
+          const dateStr = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+          const dayOrders = ordersByDay[dateStr] ?? [];
+          const isBlk = blackouts.includes(dateStr);
+          const full = dayOrders.length >= 3;
+          return (
+            <div
+              key={dateStr}
+              className={`min-h-20 rounded-lg border p-1.5 ${
+                isBlk
+                  ? "border-destructive/30 bg-destructive/10"
+                  : full
+                    ? "border-primary/40 bg-primary/10"
+                    : "border-border bg-background"
+              }`}
+            >
+              <div className="text-right text-xs font-semibold">{day}</div>
+              {isBlk && <div className="mt-0.5 text-[10px] text-destructive">Closed</div>}
+              {dayOrders.map((o) => (
+                <div
+                  key={o.id}
+                  className="mt-0.5 truncate rounded bg-primary/20 px-1 py-0.5 text-[10px] font-semibold text-primary"
+                  title={`${o.customer_name} — ${new Date(o.pickup_at!).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`}
+                >
+                  {new Date(o.pickup_at!).toLocaleTimeString([], { hour: "numeric" })} {o.customer_name.split(" ")[0]}
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// --------- Blackout Manager ---------
+
+function BlackoutManager() {
+  const [list, setList] = useState<{ id: string; blackout_date: string; reason: string | null }[]>([]);
+  const [date, setDate] = useState("");
+  const [reason, setReason] = useState("");
+
+  async function load() {
+    const today = new Date().toISOString().slice(0, 10);
+    const { data } = await supabase
+      .from("blackout_dates")
+      .select("id, blackout_date, reason")
+      .gte("blackout_date", today)
+      .order("blackout_date");
+    setList(data ?? []);
+  }
+
+  useEffect(() => {
+    void load();
+  }, []);
+
+  async function add(e: React.FormEvent) {
+    e.preventDefault();
+    if (!date) return;
+    const { error } = await supabase.from("blackout_dates").insert({ blackout_date: date, reason: reason || null });
+    if (error) {
+      alert(error.message);
+      return;
+    }
+    setDate("");
+    setReason("");
+    void load();
+  }
+
+  async function remove(id: string) {
+    await supabase.from("blackout_dates").delete().eq("id", id);
+    void load();
+  }
+
+  return (
+    <div>
+      <h2 className="font-display text-2xl text-primary">
+        <CalendarX className="mr-2 inline h-5 w-5" />
+        Blackout Dates
+      </h2>
+      <p className="text-sm text-muted-foreground">Block off vacation days or holidays — customers won't be able to book pickups on these dates.</p>
+
+      <form onSubmit={add} className="mt-4 grid gap-2 rounded-2xl border border-border bg-card p-4 sm:grid-cols-[180px_1fr_auto]">
+        <input
+          required
+          type="date"
+          min={new Date().toISOString().slice(0, 10)}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="rounded-xl border border-border bg-background px-3 py-2 text-sm"
+        />
+        <input
+          maxLength={120}
+          placeholder="Reason (optional, e.g. vacation)"
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          className="rounded-xl border border-border bg-background px-3 py-2 text-sm"
+        />
+        <button
+          type="submit"
+          className="inline-flex items-center justify-center gap-1 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+        >
+          <Plus className="h-3 w-3" /> Block date
+        </button>
+      </form>
+
+      {list.length > 0 && (
+        <ul className="mt-3 grid gap-2">
+          {list.map((b) => (
+            <li
+              key={b.id}
+              className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-2 text-sm"
+            >
+              <span>
+                <strong>{new Date(b.blackout_date + "T12:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</strong>
+                {b.reason && <span className="ml-2 text-muted-foreground">— {b.reason}</span>}
+              </span>
+              <button
+                onClick={() => remove(b.id)}
+                aria-label="Remove blackout"
+                className="text-muted-foreground hover:text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
