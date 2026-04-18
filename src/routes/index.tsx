@@ -3,7 +3,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { Sprinkles } from "@/components/Sprinkles";
 import { BestiesSignup } from "@/components/BestiesSignup";
 import logo from "@/assets/logo.png";
-import bakeryGrid from "@/assets/bakery-grid.jpg";
+
 import { ArrowRight, Cookie, Cake, Coffee } from "lucide-react";
 
 export const Route = createFileRoute("/")({
