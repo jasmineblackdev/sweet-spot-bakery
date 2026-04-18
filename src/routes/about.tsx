@@ -95,6 +95,59 @@ function AboutPage() {
           </div>
         </div>
 
+        {/* Media gallery — swap these out with your own photos & videos */}
+        <h2 className="mt-14 font-display text-4xl text-primary">From Our Kitchen</h2>
+        <p className="mt-2 text-foreground/70">
+          A peek into the bakes, the moments, and the magic. (Placeholder media — swap in your own
+          photos and videos any time.)
+        </p>
+        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
+          <img
+            src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800&q=80"
+            alt="Freshly baked muffins on a cooling rack"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80"
+            alt="Decorated cupcakes with frosting swirls"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80"
+            alt="Chocolate chip cookies stacked on parchment"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <video
+            src="https://cdn.pixabay.com/video/2020/04/30/38732-415054249_large.mp4"
+            poster="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&q=80"
+            muted
+            loop
+            playsInline
+            autoPlay
+            controls
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80"
+            alt="Slice of layered chocolate cake"
+            loading="lazy"
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+          <video
+            src="https://cdn.pixabay.com/video/2019/10/09/27725-365224679_large.mp4"
+            poster="https://images.unsplash.com/photo-1587668178277-295251f900ce?w=800&q=80"
+            muted
+            loop
+            playsInline
+            autoPlay
+            controls
+            className="aspect-square w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+          />
+        </div>
+
         <div className="mt-12 rounded-3xl border border-primary/30 bg-accent/40 p-6 md:p-8">
           <div className="flex items-start gap-3">
             <AlertTriangle className="mt-1 h-6 w-6 text-primary" />
