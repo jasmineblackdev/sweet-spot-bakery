@@ -107,16 +107,27 @@ function CartPage() {
                 </p>
               )}
 
+              {belowMin ? (
+                <button
+                  disabled
+                  className="mt-6 inline-flex w-full cursor-not-allowed items-center justify-center rounded-full bg-muted px-6 py-3 text-sm font-semibold text-muted-foreground"
+                >
+                  Proceed to checkout
+                </button>
+              ) : (
+                <Link
+                  to="/checkout"
+                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:opacity-90"
+                >
+                  Proceed to checkout →
+                </Link>
+              )}
+
               <Link
-                to="/checkout"
-                disabled={belowMin}
-                className={`mt-6 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition ${
-                  belowMin
-                    ? "pointer-events-none bg-muted text-muted-foreground"
-                    : "bg-primary text-primary-foreground hover:opacity-90"
-                }`}
+                to="/menu"
+                className="mt-3 block text-center text-xs text-muted-foreground hover:text-primary"
               >
-                Proceed to checkout
+                ← Continue shopping
               </Link>
             </aside>
           </div>
