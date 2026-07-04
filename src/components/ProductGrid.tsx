@@ -1,11 +1,50 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart, formatPrice } from "@/lib/cart";
-import { Plus, Minus, ImageOff } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 type Category = Database["public"]["Enums"]["product_category"];
+
+// Themed placeholder photos, shown only when a product has no uploaded image.
+// Curated to match the whimsical purple bakery vibe (verified Unsplash IDs).
+const TREAT_PLACEHOLDERS = [
+  "1486427944299-d1955d23e34d", // pastel cupcakes
+  "1551024601-bec78aea704b", // sprinkle donuts
+  "1578985545062-69928b1d9587", // chocolate drip cake
+  "1565958011703-44f9829ba187", // raspberry layer cake
+  "1607478900766-efe13248b125", // pastel swirl cupcakes
+  "1499636136210-6f4ee915583e", // salted chocolate cookies
+  "1558961363-fa8fdf82db35", // bowl of cookies
+  "1519869325930-281384150729", // sprinkle cupcakes
+];
+const SHOP_PLACEHOLDERS = [
+  "1602874801007-bd458bb1b8b6", // candle with fairy lights
+  "1603006905003-be475563bc59", // lit candle, cozy
+  "1610701596007-11502861dcfa", // ceramic tumblers
+  "1518057111178-44a106bad636", // cozy mug
+  "1514228742587-6b1558fcca3d", // minimal mug
+  "1512909006721-3d6018887383", // wrapped gift with twine
+];
+
+// Stable hash so each product always maps to the same placeholder.
+function hashString(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function placeholderFor(product: Product): string {
+  const pool = product.category === "shop" ? SHOP_PLACEHOLDERS : TREAT_PLACEHOLDERS;
+  const id = pool[hashString(product.id || product.name) % pool.length];
+  return `https://images.unsplash.com/photo-${id}?w=800&q=80&auto=format&fit=crop`;
+}
+
+// Real uploaded photo always wins; fall back to a themed placeholder.
+function productImage(product: Product): string {
+  return product.image_url || placeholderFor(product);
+}
 
 export function ProductGrid({ category }: { category: Category }) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -71,18 +110,12 @@ function ProductCard({ product }: { product: Product }) {
         </span>
       )}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-accent/40">
-        {product.image_url ? (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-primary/40">
-            <ImageOff className="h-10 w-10" aria-hidden="true" />
-          </div>
-        )}
+        <img
+          src={productImage(product)}
+          alt={product.name}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
         <h3 className="font-display text-xl text-primary">{product.name}</h3>
@@ -121,7 +154,7 @@ function ProductCard({ product }: { product: Product }) {
                   productId: product.id,
                   name: product.name,
                   unitPriceCents: product.price_cents,
-                  imageUrl: product.image_url,
+                  imageUrl: productImage(product),
                 })
               }
               className="inline-flex items-center gap-1 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
